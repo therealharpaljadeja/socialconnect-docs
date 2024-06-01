@@ -1,15 +1,63 @@
 {
-  "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
-  "about": {
-    "title": "About",
-    "type": "page"
+  "index": {
+    "title": "Introduction to SocialConnect",
+    "theme": {
+      "breadcrumb": false,
+      "footer": true,
+      "sidebar": true,
+      "toc": true,
+      "pagination": false
+    }
   },
-  "contact": {
-    "title": "Contact ↗",
+
+  "--- guides": {
+    "title": "Guides",
+    "type": "separator"
+  },
+  "guides": {
+    "title": "Guides",
+    "display": "children"
+  },
+  "--- example": {
+    "title": "Examples",
+    "type": "separator"
+  },
+  "examples": {
+    "title": "Examples",
+    "display": "children"
+  },
+  "--- contracts": {
+    "title": "Contracts",
+    "type": "separator"
+  },
+  "contracts": {
+    "title": "Contracts",
+    "display": "children"
+  },
+  "--- protocol": {
+    "title": "Protocol",
+    "type": "separator"
+  },
+  "protocol": {
+    "title": "Protocol",
+    "display": "children"
+  },
+  "support": {
+    "title": "Support",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
+    "href": "https://github.com/celo-org/social-connect/discussions/new?category=help-q-a",
+    "newWindow": true
+  },
+  "Community": {
+    "title": "Community",
+    "type": "page",
+    "href": "https://github.com/celo-org/social-connect/discussions",
+    "newWindow": true
+  },
+  "issue": {
+    "title": "Report An Issue",
+    "type": "page",
+    "href": "https://github.com/celo-org/social-connect/issues",
     "newWindow": true
   }
 }

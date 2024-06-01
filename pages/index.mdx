@@ -1,11 +1,47 @@
-# Introduction
- 
-Welcome to Nextra! This is a basic docs template. You can use it as a starting point for your own project :)
+import { Cards, Card } from "nextra/components";
 
-## What is Nextra?
+# Introduction to SocialConnect
 
-A **simple**, **powerful** and **flexible** site generation framework with everything you love from Next.js.
+SocialConnect is an open source protocol that maps off-chain personal identifiers (such as phone numbers, twitter handles, etc.) to on-chain account addresses.
 
-## Documentation
+This enables a convenient and interoperable user experience for use cases such as:
 
-The documentation is available at [https://nextra.site](https://nextra.site).
+- **Payments** - Send money directly to your friend's phone number!
+- **Social Discovery** - Find someone's account based on their twitter and any other identity applications!
+
+Here is a short demo of a payment from a Kaala wallet user to a Libera wallet user, with only a phone number:
+
+<iframe
+  src="https://www.loom.com/embed/8afddd73ba324ec18aeb63fc96d568f9?sid=e4551a09-4db3-4b63-8b8e-a9d6c4a86209"
+  frameborder="0"
+  allowfullscreen
+  width="100%"
+  height="400px"
+></iframe>
+
+### Explore Documentation
+
+<Cards cols={2}>
+<Card title="Guides" href="guides">
+  Check out the guides to lookup, register and revoke attestations.
+</Card>
+
+<Card title="Protocol" href="protocol">
+  Check out how the SocialConnect protocol works
+</Card>
+
+<Card
+  title="Next.js Example"
+  href="https://github.com/celo-org/socialconnect-template"
+>
+  Take a look at an Next.js example project with SocialConnect support
+</Card>
+
+<Card
+  title="Glossary"
+  href="https://github.com/celo-org/socialconnect-template"
+>
+  Understand all the terms associated with SocialConnect protocol
+</Card>
+
+</Cards>

@@ -1,0 +1,198 @@
+import { Callout } from "nextra/components";
+
+# FederatedAttestations.sol
+
+FederatedAttestations is the onchain contract that stores the mappings of obfuscated identifier to wallet address.
+
+## Functions
+
+Following are the functions available in the FederatedAttestations.sol contract, that are useful for developers building on SocialConnect.
+
+- [registerAttestationAsIssuer](#registerattestationasissuer)
+- [registerAttestation](#registerattestation)
+- [lookupAttestations](#lookupattestations)
+- [lookupIdentifiers](#lookupidentifiers)
+- [revokeAttestation](#revokeattestation)
+- [batchRevokeAttestations](#batchrevokeattestations)
+- [validateAttestationSig](#validateattestationsig)
+
+### registerAttestationAsIssuer
+
+```solidity
+function registerAttestationAsIssuer(
+  bytes32 identifier,
+  address account,
+  uint64 issuedOn
+) external
+```
+
+The above function can be used if the address registering the attestation is the issuer itself.
+
+### registerAttestation
+
+```solidity
+function registerAttestation(
+  bytes32 identifier,
+  address issuer,
+  address account,
+  address signer,
+  uint64 issuedOn,
+  uint8 v,
+  bytes32 r,
+  bytes32 s
+) external
+```
+
+The above function can be used if the address registering the attestation is not the issuer address but is the attestation signer for the issuer.
+
+This allows the developer to not expose issuer keys in their infrastructure because the attestation signer can perform the attestation operations on behalf of the issuer.
+
+The `v`, `r` and `s` parameters are parts of the signature. The signature is basically signed [EIP-712](https://eips.ethereum.org/EIPS/eip-712) message where the data is structured accroding to the `OwnershipAttestation` struct.
+
+```solidity
+struct OwnershipAttestation {
+  address account;
+  address signer;
+  uint64 issuedOn;
+  uint64 publishedOn;
+}
+```
+
+### lookupAttestations
+
+```solidity
+function lookupAttestations(
+  bytes32 identifier,
+  address[] calldata trustedIssuers
+)
+  external
+  view
+  returns (
+    uint256[] memory countsPerIssuer,
+    address[] memory accounts,
+    address[] memory signers,
+    uint64[] memory issuedOns,
+    uint64[] memory publishedOns
+  )
+```
+
+The above function can be used if want to lookup the account address for a respective identifier.
+
+You need to provide the identifier you want to lookup the account address for and the issuer addresses under which you want to lookup.
+
+SocialConnect allows anyone to become an issuer hence the entity looking for account address needs to provide an issuer address it trusts.
+
+<Callout type="info">
+An identifier could be mapped to multiple accounts (upto 20 under a single issuer)
+</Callout>
+
+### lookupIdentifiers
+
+```solidity
+ function lookupIdentifiers(
+  address account,
+  address[] calldata trustedIssuers
+)
+  external
+  view
+  returns (
+    uint256[] memory countsPerIssuer,
+    bytes32[] memory identifiers
+  )
+```
+
+The above function can be used if you have the account address and you want to lookup the obfuscated identifier corresponding to it.
+
+You need to provide the account you want to lookup the identifier for and the issuer addresses under which you want to lookup.
+
+SocialConnect allows anyone to become an issuer hence the entity looking for account address needs to provide an issuer address it trusts.
+
+<Callout type="info">
+An account could be mapped to multiple identifiers (upto 20 under a single issuer)
+</Callout>
+
+### revokeAttestation
+
+```solidity
+function revokeAttestation(
+  bytes32 identifier,
+  address issuer,
+  address account
+) external
+```
+
+The above function can be used to revoke an attestation.
+
+The following account can revoke an attestation:
+
+- The account that is mapped to the identifier.
+- The issuer account.
+- The attestation signer of the issuer.
+
+### batchRevokeAttestations
+
+```solidity
+function batchRevokeAttestations(
+  address issuer,
+  bytes32[] calldata identifiers,
+  address[] calldata accounts
+) external
+```
+
+The above function can be used to revoke multiple attestations at once.
+
+### validateAttestationSig
+
+```solidity
+function validateAttestationSig(
+  bytes32 identifier,
+  address issuer,
+  address account,
+  address signer,
+  uint64 issuedOn,
+  uint8 v,
+  bytes32 r,
+  bytes32 s
+) public view
+```
+
+The above function can be used to validate if the attestation signer for the respective issuer has properly constructed the message for registering an attestation and signed it.
+
+## Events
+
+Following are the events emitted by FederatedAttestations.sol contract, that are useful for developers building on SocialConnect.
+
+- [AttestationRegistered](#attestationregistered)
+- [AttestationRevoked](#attestationrevoked)
+
+### AttestationRegistered
+
+```solidity
+event AttestationRegistered(
+  bytes32 indexed identifier,
+  address indexed issuer,
+  address indexed account,
+  address signer,
+  uint64 issuedOn,
+  uint64 publishedOn
+);
+```
+
+The above event is emitted when an attestation is registered and can be used to perform an action or show progress UI after an attestation has been registered.
+
+### AttestationRevoked
+
+```solidity
+event AttestationRevoked(
+  bytes32 indexed identifier,
+  address indexed issuer,
+  address indexed account,
+  address signer,
+  uint64 issuedOn,
+  uint64 publishedOn
+);
+```
+
+The above event is emitted when an attestation has been revoked.
+
+Since attestations can be revoked by the mapped account as well, it is recommended that dApps use this event to know if the user has directly revoked the attestation without the need of an issuer.
