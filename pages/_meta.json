@@ -42,6 +42,12 @@
     "title": "Protocol",
     "display": "children"
   },
+  "tryDemo": {
+    "title": "Try Demo",
+    "type": "page",
+    "href": "https://socialconnect-lookup.vercel.app/",
+    "newWindow": true
+  },
   "support": {
     "title": "Support",
     "type": "page",
