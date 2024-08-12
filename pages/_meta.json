@@ -42,6 +42,9 @@
     "title": "Protocol",
     "display": "children"
   },
+  "faq": {
+    "title": "FAQ"
+  },
   "support": {
     "title": "Support",
     "type": "page",
